@@ -4,20 +4,22 @@ import nltk
 from nltk.corpus import stopwords
 
 # -------------------------
-# SAFE NLTK DATA LOADING
+# ENSURE REQUIRED NLTK DATA
 # -------------------------
 def ensure_nltk_data():
-    try:
-        nltk.data.find("tokenizers/punkt")
-    except LookupError:
-        nltk.download("punkt")
+    resources = [
+        "tokenizers/punkt",
+        "tokenizers/punkt_tab",
+        "corpora/stopwords",
+    ]
 
-    try:
-        nltk.data.find("corpora/stopwords")
-    except LookupError:
-        nltk.download("stopwords")
+    for res in resources:
+        try:
+            nltk.data.find(res)
+        except LookupError:
+            nltk.download(res.split("/")[-1])
 
-# Ensure resources are available at import time
+# call once at import
 ensure_nltk_data()
 
 STOP_WORDS = set(stopwords.words("english"))
@@ -26,19 +28,12 @@ def clean_text(text: str) -> str:
     if not isinstance(text, str):
         return ""
 
-    # lowercase
     text = text.lower()
-
-    # remove urls
     text = re.sub(r"http\S+|www\S+", "", text)
-
-    # remove non-alphabetic chars
     text = re.sub(r"[^a-z\s]", " ", text)
 
-    # tokenize
+    # ⬇️ UNCHANGED FUNCTIONALITY
     tokens = nltk.word_tokenize(text)
 
-    # remove stopwords & short tokens
     tokens = [t for t in tokens if t not in STOP_WORDS and len(t) > 2]
-
     return " ".join(tokens)
