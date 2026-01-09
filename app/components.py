@@ -37,6 +37,13 @@ else:
         f"</div>",
         unsafe_allow_html=True
     )
+def confidence_based_result(fake_conf):
+    if fake_conf >= 0.80:
+        return "Likely Fake", "red"
+    elif fake_conf >= 0.50:
+        return "Uncertain / Neutral", "yellow"
+    else:
+        return "Likely Real", "green"
 
 
 def show_confidence_bar(title, value):
