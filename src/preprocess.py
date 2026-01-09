@@ -1,29 +1,40 @@
 # src/preprocess.py
+import os
 import re
 import nltk
 from nltk.corpus import stopwords
 
-# -------------------------
-# ENSURE REQUIRED NLTK DATA
-# -------------------------
+# -------------------------------------------------
+# FORCE NLTK DATA DIRECTORY (Streamlit Cloud safe)
+# -------------------------------------------------
+NLTK_DATA_DIR = os.path.join(os.getcwd(), "nltk_data")
+os.makedirs(NLTK_DATA_DIR, exist_ok=True)
+nltk.data.path.append(NLTK_DATA_DIR)
+
+# -------------------------------------------------
+# ENSURE REQUIRED NLTK RESOURCES
+# -------------------------------------------------
 def ensure_nltk_data():
-    resources = [
-        "tokenizers/punkt",
-        "tokenizers/punkt_tab",
-        "corpora/stopwords",
-    ]
+    resources = {
+        "punkt": "tokenizers/punkt",
+        "punkt_tab": "tokenizers/punkt_tab",
+        "stopwords": "corpora/stopwords",
+    }
 
-    for res in resources:
+    for pkg, path in resources.items():
         try:
-            nltk.data.find(res)
+            nltk.data.find(path)
         except LookupError:
-            nltk.download(res.split("/")[-1])
+            nltk.download(pkg, download_dir=NLTK_DATA_DIR)
 
-# call once at import
+# Run once at import
 ensure_nltk_data()
 
 STOP_WORDS = set(stopwords.words("english"))
 
+# -------------------------------------------------
+# EXISTING FUNCTIONALITY — UNCHANGED
+# -------------------------------------------------
 def clean_text(text: str) -> str:
     if not isinstance(text, str):
         return ""
@@ -32,7 +43,7 @@ def clean_text(text: str) -> str:
     text = re.sub(r"http\S+|www\S+", "", text)
     text = re.sub(r"[^a-z\s]", " ", text)
 
-    # ⬇️ UNCHANGED FUNCTIONALITY
+    # ⬇️ DO NOT CHANGE
     tokens = nltk.word_tokenize(text)
 
     tokens = [t for t in tokens if t not in STOP_WORDS and len(t) > 2]
