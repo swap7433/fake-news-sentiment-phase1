@@ -92,8 +92,8 @@ with tabs[0]:
 
                 
             
-                st.markdown("### Fake News Confidence")
-                colored_confidence_bar(fake_conf, ui_state)
+                st.markdown("###  News Confidence")
+                colored_confidence_bar(sent_conf, ui_color)
 
                 st.markdown("---")
                 st.subheader("Sentiment")
