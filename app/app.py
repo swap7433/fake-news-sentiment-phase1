@@ -14,6 +14,9 @@ from app.components import (
     show_feature_heatmap, show_top_words_bar, show_sentiment_timeseries
 )
 from src.config import TFIDF_PATH, FAKE_MODEL_PATH, SENT_MODEL_PATH
+from app.components import confidence_based_result
+
+ui_label, ui_color = confidence_based_result(fake_conf)
 from pathlib import Path
 import time
 
@@ -62,9 +65,52 @@ with tabs[0]:
             else:
                 out = predict_all(text)
                 st.subheader("Prediction")
-                is_fake = str(out['fake_pred']).lower() in ['fake','1','true','yes']
-                colored_result(fake_label, is_fake)
-                show_confidence_bar("Fake news confidence", out['fake_confidence'])
+                #is_fake = str(out['fake_pred']).lower() in ['fake','1','true','yes']
+                #colored_result(fake_label, is_fake)
+                #show_confidence_bar("Fake news confidence", out['fake_confidence'])
+                fake_conf = float(out.get("fake_confidence", 0.0))
+
+                # -------------------------------
+                # CONFIDENCE-BASED UI DECISION
+                # -------------------------------
+                if fake_conf >= 0.80:
+                    ui_label = "Likely Fake"
+                    ui_color = "red"
+                elif fake_conf >= 0.50:
+                    ui_label = "Uncertain / Neutral"
+                    ui_color = "yellow"
+                else:
+                    ui_label = "Likely Real"
+                    ui_color = "green"
+                if ui_color == "red":
+                    st.markdown(
+                        f"<div style='padding:12px;background:#ffe6e6;border-left:6px solid #ff0000;'>"
+                        f"<b>{ui_label}</b><br>"
+                        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
+                        f"</div>",
+                        unsafe_allow_html=True
+                    )
+                
+                elif ui_color == "yellow":
+                    st.markdown(
+                        f"<div style='padding:12px;background:#fff8e1;border-left:6px solid #ffb300;'>"
+                        f"<b>{ui_label}</b><br>"
+                        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
+                        f"</div>",
+                        unsafe_allow_html=True
+                    )
+                
+                else:
+                    st.markdown(
+                        f"<div style='padding:12px;background:#e8f5e9;border-left:6px solid #2e7d32;'>"
+                        f"<b>{ui_label}</b><br>"
+                        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
+                        f"</div>",
+                        unsafe_allow_html=True
+                    )
+
+                st.subheader("Final Interpretation (Confidence-based)")
+
                 st.markdown("---")
                 st.subheader("Sentiment")
                 st.write(f"**{out['sentiment_pred'].title()}**")
