@@ -69,31 +69,30 @@ with tabs[0]:
                 #colored_result(fake_label, is_fake)
                 #show_confidence_bar("Fake news confidence", out['fake_confidence'])
                 # -----------------------------------
-# SENTIMENT-BASED UI COLOR LOGIC
+                    # SENTIMENT-BASED UI COLOR LOGIC
+                    # -----------------------------------
+                # -----------------------------------
+# CONFIDENCE-THRESHOLD BASED COLOR
 # -----------------------------------
-                sent_conf = float(out.get("sentiment_confidence", 0.0))
-                sent_label = out.get("sentiment_pred", "").lower()
+                conf = float(out.get("sentiment_confidence", 0.0))  # using sentiment confidence
                 
-                if sent_label == "negative" and sent_conf <= 0.30:
+                if conf < 0.30:
                     ui_color = "red"
-                    ui_label = "Likely Fake / Harmful Content"
+                    ui_label = "Low Confidence / Potentially Risky Content"
                 
-                elif sent_conf <= 0.60:
+                elif conf < 0.65:
                     ui_color = "yellow"
-                    ui_label = "Uncertain / Needs Verification"
+                    ui_label = "Medium Confidence / Needs Verification"
                 
                 else:
                     ui_color = "green"
-                    ui_label = "Likely Real / Benign Content"
+                    ui_label = "High Confidence / Likely Benign Content"
                 
-                st.subheader("Final Interpretation (Sentiment-based)")
-                render_confidence_result(ui_label, ui_color, sent_conf)
-
-
+                st.subheader("Final Interpretation (Confidence-based)")
+                render_confidence_result(ui_label, ui_color, conf)
                 
-            
-                st.markdown("###  News Confidence")
-                colored_confidence_bar(sent_conf, ui_color)
+                st.markdown("### News Confidence")
+                colored_confidence_bar(conf, ui_color)
 
                 st.markdown("---")
                 st.subheader("Sentiment")
