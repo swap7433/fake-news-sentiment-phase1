@@ -44,6 +44,38 @@ def confidence_based_result(fake_conf):
         return "Uncertain / Neutral", "yellow"
     else:
         return "Likely Real", "green"
+        
+def colored_confidence_bar(conf, state):
+    """
+    conf: float (0–1)
+    state: 'fake' | 'neutral' | 'real'
+    """
+    percent = int(conf * 100)
+
+    if state == "fake":
+        color = "#ff4d4d"   # red
+    elif state == "neutral":
+        color = "#ffcc00"   # yellow
+    else:
+        color = "#4caf50"   # green
+
+    st.markdown(
+        f"""
+        <div style="width:100%; background:#e0e0e0; border-radius:6px;">
+            <div style="
+                width:{percent}%;
+                background:{color};
+                padding:6px;
+                border-radius:6px;
+                color:white;
+                text-align:right;
+                font-weight:bold;">
+                {percent}%
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 
 def show_confidence_bar(title, value):
