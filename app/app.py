@@ -14,10 +14,8 @@ from app.components import (
     show_feature_heatmap, show_top_words_bar, show_sentiment_timeseries
 )
 from src.config import TFIDF_PATH, FAKE_MODEL_PATH, SENT_MODEL_PATH
-from app.components import confidence_based_result
+from app.components import render_confidence_result
 
-
-ui_label, ui_color = confidence_based_result(fake_conf)
 from pathlib import Path
 import time
 
@@ -83,35 +81,8 @@ with tabs[0]:
                 else:
                     ui_label = "Likely Real"
                     ui_color = "green"
-                if ui_color == "red":
-                    st.markdown(
-                        f"<div style='padding:12px;background:#ffe6e6;border-left:6px solid #ff0000;'>"
-                        f"<b>{ui_label}</b><br>"
-                        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
-                        f"</div>",
-                        unsafe_allow_html=True
-                    )
                 
-                elif ui_color == "yellow":
-                    st.markdown(
-                        f"<div style='padding:12px;background:#fff8e1;border-left:6px solid #ffb300;'>"
-                        f"<b>{ui_label}</b><br>"
-                        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
-                        f"</div>",
-                        unsafe_allow_html=True
-                    )
-                
-                else:
-                    st.markdown(
-                        f"<div style='padding:12px;background:#e8f5e9;border-left:6px solid #2e7d32;'>"
-                        f"<b>{ui_label}</b><br>"
-                        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
-                        f"</div>",
-                        unsafe_allow_html=True
-                    )
-
                 st.subheader("Final Interpretation (Confidence-based)")
-                
                 render_confidence_result(ui_label, ui_color, fake_conf)
                 st.markdown("---")
                 st.subheader("Sentiment")
