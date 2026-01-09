@@ -1,0 +1,48 @@
+✅ 1. Live News Websites (copy/paste)
+
+Just open any news site, copy a paragraph of an article, and paste it into Streamlit.
+
+Examples:
+
+💠 BBC News
+
+https://www.bbc.com/news
+
+💠 CNN
+
+https://edition.cnn.com
+
+💠 Reuters
+
+https://www.reuters.com
+
+💠 The Guardian
+
+https://www.theguardian.com
+
+💠 NDTV / India Today / Times of India
+
+https://www.ndtv.com
+
+https://www.indiatoday.in
+
+https://timesofindia.indiatimes.com
+
+✅ 2. Fact-checking websites (best for Fake examples)
+
+These websites contain fake claims and the explanation — perfect for model testing:
+
+💠 PolitiFact
+
+https://www.politifact.com/factchecks/
+
+💠 Snopes
+
+https://www.snopes.com/
+
+💠 AltNews (Indian fact-checks)
+
+
+💠 FactCheck.org
+
+https://www.factcheck.org/

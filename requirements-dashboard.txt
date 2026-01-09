@@ -1,0 +1,17 @@
+streamlit
+pandas
+scikit-learn
+nltk
+joblib
+plotly
+wordcloud
+pillow
+feedparser
+spacy
+gensim
+matplotlib
+plotly
+transformers>=4.0.0   # optional; heavy
+torch                 # optional; heavy
+sentencepiece         # optional; for some summarizers
+textblob              # optional
