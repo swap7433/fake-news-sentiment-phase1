@@ -68,28 +68,26 @@ with tabs[0]:
                 #is_fake = str(out['fake_pred']).lower() in ['fake','1','true','yes']
                 #colored_result(fake_label, is_fake)
                 #show_confidence_bar("Fake news confidence", out['fake_confidence'])
-                fake_conf = float(out.get("fake_confidence", 0.0))
+                # -----------------------------------
+# SENTIMENT-BASED UI COLOR LOGIC
+# -----------------------------------
+                sent_conf = float(out.get("sentiment_confidence", 0.0))
+                sent_label = out.get("sentiment_pred", "").lower()
                 
-                # -----------------------------------
-                # REVERSED CONFIDENCE INTERPRETATION
-                # -----------------------------------
-                if fake_conf <= 0.20:
-                    ui_state = "fake"
-                    ui_label = "Likely Fake"
+                if sent_label == "negative" and sent_conf <= 0.30:
                     ui_color = "red"
+                    ui_label = "Likely Fake / Harmful Content"
                 
-                elif fake_conf <= 0.60:
-                    ui_state = "neutral"
-                    ui_label = "Uncertain / Needs Verification"
+                elif sent_conf <= 0.60:
                     ui_color = "yellow"
+                    ui_label = "Uncertain / Needs Verification"
                 
                 else:
-                    ui_state = "real"
-                    ui_label = "Likely Real"
                     ui_color = "green"
+                    ui_label = "Likely Real / Benign Content"
                 
-                st.subheader("Final Interpretation (Confidence-based)")
-                render_confidence_result(ui_label, ui_color, fake_conf)
+                st.subheader("Final Interpretation (Sentiment-based)")
+                render_confidence_result(ui_label, ui_color, sent_conf)
 
 
                 
