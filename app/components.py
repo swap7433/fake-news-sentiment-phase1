@@ -11,32 +11,32 @@ import numpy as np
 def colored_result(label, is_fake):
     st.subheader("Final Interpretation (Confidence-based)")
 
-if ui_color == "red":
-    st.markdown(
-        f"<div style='padding:12px;background:#ffe6e6;border-left:6px solid #ff0000;'>"
-        f"<b>{ui_label}</b><br>"
-        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
-        f"</div>",
-        unsafe_allow_html=True
-    )
+def render_confidence_result(ui_label, ui_color, fake_conf):
+    if ui_color == "red":
+        st.markdown(
+            f"<div style='padding:12px;background:#ffe6e6;border-left:6px solid #ff0000;'>"
+            f"<b>{ui_label}</b><br>"
+            f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
+    elif ui_color == "yellow":
+        st.markdown(
+            f"<div style='padding:12px;background:#fff8e1;border-left:6px solid #ffb300;'>"
+            f"<b>{ui_label}</b><br>"
+            f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            f"<div style='padding:12px;background:#e8f5e9;border-left:6px solid #2e7d32;'>"
+            f"<b>{ui_label}</b><br>"
+            f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
 
-elif ui_color == "yellow":
-    st.markdown(
-        f"<div style='padding:12px;background:#fff8e1;border-left:6px solid #ffb300;'>"
-        f"<b>{ui_label}</b><br>"
-        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
-        f"</div>",
-        unsafe_allow_html=True
-    )
-
-else:
-    st.markdown(
-        f"<div style='padding:12px;background:#e8f5e9;border-left:6px solid #2e7d32;'>"
-        f"<b>{ui_label}</b><br>"
-        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
-        f"</div>",
-        unsafe_allow_html=True
-    )
 def confidence_based_result(fake_conf):
     if fake_conf >= 0.80:
         return "Likely Fake", "red"
