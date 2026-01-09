@@ -72,15 +72,21 @@ with tabs[0]:
                 # -------------------------------
                 # CONFIDENCE-BASED UI DECISION
                 # -------------------------------
-                if fake_conf >= 0.80:
+                fake_conf = float(out.get("fake_confidence", 0.0))
+
+                # -----------------------------------
+                # FINAL UI STATE (for coloring)
+                # -----------------------------------
+                if fake_conf >= 0.95:
+                    ui_state = "fake"       # 🔴
                     ui_label = "Likely Fake"
-                    ui_color = "red"
-                elif fake_conf >= 0.50:
-                    ui_label = "Uncertain / Neutral"
-                    ui_color = "yellow"
+                elif fake_conf >= 0.70:
+                    ui_state = "neutral"    # 🟡
+                    ui_label = "Uncertain / Needs Verification"
                 else:
+                    ui_state = "real"       # 🟢
                     ui_label = "Likely Real"
-                    ui_color = "green"
+
                 
                 st.subheader("Final Interpretation (Confidence-based)")
                 render_confidence_result(ui_label, ui_color, fake_conf)
