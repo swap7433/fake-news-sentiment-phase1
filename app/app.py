@@ -16,6 +16,8 @@ from app.components import (
 from src.config import TFIDF_PATH, FAKE_MODEL_PATH, SENT_MODEL_PATH
 from app.components import confidence_based_result
 
+render_confidence_result(ui_label, ui_color, fake_conf)
+
 ui_label, ui_color = confidence_based_result(fake_conf)
 from pathlib import Path
 import time
