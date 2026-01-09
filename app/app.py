@@ -15,6 +15,7 @@ from app.components import (
 )
 from src.config import TFIDF_PATH, FAKE_MODEL_PATH, SENT_MODEL_PATH
 from app.components import render_confidence_result
+from app.components import render_confidence_result, colored_confidence_bar
 
 from pathlib import Path
 import time
@@ -89,7 +90,11 @@ with tabs[0]:
 
                 
                 st.subheader("Final Interpretation (Confidence-based)")
-                render_confidence_result(ui_label, ui_color, fake_conf)
+                render_confidence_result(ui_label, "red" if ui_state=="fake" else "yellow" if ui_state=="neutral" else "green", fake_conf)
+
+                st.markdown("### Fake News Confidence")
+                colored_confidence_bar(fake_conf, ui_state)
+
                 st.markdown("---")
                 st.subheader("Sentiment")
                 st.write(f"**{out['sentiment_pred'].title()}**")
