@@ -69,29 +69,31 @@ with tabs[0]:
                 #colored_result(fake_label, is_fake)
                 #show_confidence_bar("Fake news confidence", out['fake_confidence'])
                 fake_conf = float(out.get("fake_confidence", 0.0))
-
-                # -------------------------------
-                # CONFIDENCE-BASED UI DECISION
-                # -------------------------------
-                fake_conf = float(out.get("fake_confidence", 0.0))
-
+                
                 # -----------------------------------
-                # FINAL UI STATE (for coloring)
+                # REVERSED CONFIDENCE INTERPRETATION
                 # -----------------------------------
-                if fake_conf >= 0.95:
-                    ui_state = "fake"       # 🔴
+                if fake_conf <= 0.20:
+                    ui_state = "fake"
                     ui_label = "Likely Fake"
-                elif fake_conf >= 0.70:
-                    ui_state = "neutral"    # 🟡
+                    ui_color = "red"
+                
+                elif fake_conf <= 0.60:
+                    ui_state = "neutral"
                     ui_label = "Uncertain / Needs Verification"
+                    ui_color = "yellow"
+                
                 else:
-                    ui_state = "real"       # 🟢
+                    ui_state = "real"
                     ui_label = "Likely Real"
-
+                    ui_color = "green"
                 
                 st.subheader("Final Interpretation (Confidence-based)")
-                render_confidence_result(ui_label, "red" if ui_state=="fake" else "yellow" if ui_state=="neutral" else "green", fake_conf)
+                render_confidence_result(ui_label, ui_color, fake_conf)
 
+
+                
+            
                 st.markdown("### Fake News Confidence")
                 colored_confidence_bar(fake_conf, ui_state)
 
