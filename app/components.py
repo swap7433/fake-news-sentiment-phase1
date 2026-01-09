@@ -9,12 +9,35 @@ from pathlib import Path
 import numpy as np
 
 def colored_result(label, is_fake):
-    if is_fake:
-        st.markdown(f"<div style='padding:10px;background:#ffdddd;border-left:6px solid #ff4d4d;'>"
-                    f"<b>Prediction:</b> <span style='color:#b30000'>{label}</span></div>", unsafe_allow_html=True)
-    else:
-        st.markdown(f"<div style='padding:10px;background:#ddffdd;border-left:6px solid #33cc33;'>"
-                    f"<b>Prediction:</b> <span style='color:#006600'>{label}</span></div>", unsafe_allow_html=True)
+    st.subheader("Final Interpretation (Confidence-based)")
+
+if ui_color == "red":
+    st.markdown(
+        f"<div style='padding:12px;background:#ffe6e6;border-left:6px solid #ff0000;'>"
+        f"<b>{ui_label}</b><br>"
+        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
+        f"</div>",
+        unsafe_allow_html=True
+    )
+
+elif ui_color == "yellow":
+    st.markdown(
+        f"<div style='padding:12px;background:#fff8e1;border-left:6px solid #ffb300;'>"
+        f"<b>{ui_label}</b><br>"
+        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
+        f"</div>",
+        unsafe_allow_html=True
+    )
+
+else:
+    st.markdown(
+        f"<div style='padding:12px;background:#e8f5e9;border-left:6px solid #2e7d32;'>"
+        f"<b>{ui_label}</b><br>"
+        f"Fake confidence: <b>{fake_conf*100:.2f}%</b>"
+        f"</div>",
+        unsafe_allow_html=True
+    )
+
 
 def show_confidence_bar(title, value):
     fig = go.Figure(go.Bar(x=[value*100], y=[title], orientation='h', text=[f"{value*100:.1f}%"], textposition='inside'))
