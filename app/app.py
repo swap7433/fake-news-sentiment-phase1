@@ -63,8 +63,8 @@ with tabs[0]:
                 out = predict_all(text)
                 st.subheader("Prediction")
                 is_fake = str(out['fake_pred']).lower() in ['fake','1','true','yes']
-                colored_result(out['fake_pred'], is_fake)
-                show_confidence_bar("Fake confidence", out['fake_confidence'])
+                colored_result(fake_label, is_fake)
+                show_confidence_bar("Fake news confidence", out['fake_confidence'])
                 st.markdown("---")
                 st.subheader("Sentiment")
                 st.write(f"**{out['sentiment_pred'].title()}**")
